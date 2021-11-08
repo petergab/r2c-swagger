@@ -1,0 +1,1316 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "R2C Tech Assist",
+    "version" : "1.0.0",
+    "title" : "R2C TechAssist"
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/goodylabs/R2C_TechAssist/1.0.0",
+  "tags" : [ {
+    "name" : "jobs",
+    "description" : "My Jobs"
+  }, {
+    "name" : "tasks",
+    "description" : "Tasks"
+  }, {
+    "name" : "repairs",
+    "description" : "Repairs"
+  }, {
+    "name" : "repair_types",
+    "description" : "Repair Lookup"
+  }, {
+    "name" : "repair_categories",
+    "description" : "Repair Categories"
+  }, {
+    "name" : "part_types",
+    "description" : "Parts Lookup"
+  }, {
+    "name" : "part_categories",
+    "description" : "Part Categories"
+  }, {
+    "name" : "assets",
+    "description" : "Assets"
+  }, {
+    "name" : "customers",
+    "description" : "Customers"
+  }, {
+    "name" : "users",
+    "description" : "Users"
+  }, {
+    "name" : "admin_tasks",
+    "description" : "Admin Tasks"
+  } ],
+  "schemes" : [ "https" ],
+  "security" : [ {
+    "password" : [ "read", "write" ]
+  } ],
+  "paths" : {
+    "/jobs" : {
+      "get" : {
+        "tags" : [ "jobs" ],
+        "summary" : "Get a List of My Jobs",
+        "description" : "Get a list of jobs for the currently logged in user",
+        "operationId" : "getJobs",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "from",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Job"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          }
+        }
+      }
+    },
+    "/jobs/{id}" : {
+      "get" : {
+        "tags" : [ "jobs" ],
+        "summary" : "Get details of a Job",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Job ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Job"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "jobs" ],
+        "summary" : "Update attributes of a Job",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "bookingStart" : {
+                "type" : "string",
+                "format" : "date-time"
+              },
+              "bookingEnd" : {
+                "type" : "string",
+                "format" : "date-time"
+              },
+              "approvalStatus" : {
+                "type" : "string",
+                "enum" : [ "awaiting" ]
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Job"
+            }
+          },
+          "404" : {
+            "description" : "Job not found"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "400" : {
+            "description" : "Invalid input"
+          }
+        }
+      }
+    },
+    "/jobs/{id}/tasks" : {
+      "get" : {
+        "tags" : [ "jobs" ],
+        "summary" : "Gets a List of Tasks for a Job",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Task"
+            }
+          },
+          "404" : {
+            "description" : "Job not found"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "400" : {
+            "description" : "Invalid input"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "jobs" ],
+        "summary" : "Creates a task for a Job",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Task"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Task"
+            }
+          },
+          "404" : {
+            "description" : "Job not found"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "400" : {
+            "description" : "Invalid input"
+          }
+        }
+      }
+    },
+    "/tasks/{id}" : {
+      "get" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Get details of a Task",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Task"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Update a Task",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "status" : {
+                "type" : "string",
+                "enum" : [ "notstarted", "inprogress", "paused", "complete" ]
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Task"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}/repairs" : {
+      "get" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Lists Repairs for a task",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TaskRepair"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Adds a TaskRepair to a Task",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "TaskRepair",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/TaskRepair"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/TaskRepair"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}/parts" : {
+      "get" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Lists Parts for a task",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TaskRepairPart"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Adds a TaskRepairPart to a Task",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "TaskRepairPart",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/TaskRepairPart"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/TaskRepairPart"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}/labour" : {
+      "get" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Lists Labour for a task",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Labour"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Adds Labour to a Task",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Labour",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Labour"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Labour"
+            }
+          }
+        }
+      }
+    },
+    "/repairs/{id}" : {
+      "get" : {
+        "tags" : [ "repairs" ],
+        "summary" : "Get a TaskRepair",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "succcess",
+            "schema" : {
+              "$ref" : "#/definitions/TaskRepair"
+            }
+          }
+        }
+      }
+    },
+    "/repairs/{id}/parts" : {
+      "get" : {
+        "tags" : [ "repairs" ],
+        "summary" : "Get TaskRepairParts for a TaskRepair",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "TaskRepair ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TaskRepairPart"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "repairs" ],
+        "summary" : "Adds TaskRepairPart to a TaskRepair",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "TaskRepair ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "TaskRepairPart",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/TaskRepairPart"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/TaskRepairPart"
+            }
+          }
+        }
+      }
+    },
+    "/part_categories" : {
+      "get" : {
+        "tags" : [ "part_types" ],
+        "summary" : "Get Part Categories",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "parentId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Category"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/part_types" : {
+      "get" : {
+        "tags" : [ "part_types" ],
+        "summary" : "Get Parts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "categoryId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "text",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "price", "name" ]
+        }, {
+          "name" : "stockType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "supplier",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Part"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/repair_categories" : {
+      "get" : {
+        "tags" : [ "repair_types" ],
+        "summary" : "Get Part Categories",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "parentId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Category"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/repair_types" : {
+      "get" : {
+        "tags" : [ "repair_types" ],
+        "summary" : "Get Repairs",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "categoryId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "text",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Repair"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}" : {
+      "get" : {
+        "tags" : [ "assets" ],
+        "summary" : "Get an Asset by Id",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Asset"
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/notes" : {
+      "get" : {
+        "tags" : [ "assets" ],
+        "summary" : "Get Asset Notes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Note"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/documents" : {
+      "get" : {
+        "tags" : [ "assets" ],
+        "summary" : "Get Asset Documents",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Document"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/maintenance_history" : {
+      "get" : {
+        "tags" : [ "assets" ],
+        "summary" : "Get Asset Maintenance Histoty",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/MaintenanceHistory"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "Log In a User",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "login" : {
+                "type" : "string"
+              },
+              "siteId" : {
+                "type" : "string"
+              },
+              "password" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "notfound"
+          },
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "jwtToken" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}" : {
+      "get" : {
+        "tags" : [ "users" ],
+        "summary" : "Get User Details",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/admin_tasks" : {
+      "get" : {
+        "tags" : [ "admin_tasks" ],
+        "summary" : "Lists available Admin Tasks",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/AdminTaskType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin_tasks/log_time" : {
+      "post" : {
+        "tags" : [ "admin_tasks" ],
+        "summary" : "Lists available Admin Tasks",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "adminTaskId" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "time" : {
+                "type" : "integer",
+                "format" : "int32"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "adminTask" : {
+                  "$ref" : "#/definitions/AdminTaskType"
+                },
+                "time" : {
+                  "type" : "integer",
+                  "format" : "int32"
+                },
+                "date" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Job" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "ref" : {
+          "type" : "string"
+        },
+        "asset" : {
+          "$ref" : "#/definitions/Asset"
+        },
+        "customer" : {
+          "$ref" : "#/definitions/Customer"
+        },
+        "requiredBy" : {
+          "type" : "string",
+          "format" : "data-time"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "planned", "booked", "onsite", "inprogress", "awaitingsignoff", "complete", "invoiced", "noshow", "cancelled" ]
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "approvalRequired" : {
+          "type" : "boolean"
+        },
+        "approvalStatus" : {
+          "type" : "string",
+          "enum" : [ "approved", "awaiting", "required", "na" ]
+        },
+        "bookingStart" : {
+          "type" : "string",
+          "format" : "data-time"
+        },
+        "bookingEnd" : {
+          "type" : "string",
+          "format" : "data-time"
+        },
+        "tasks" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Task"
+          }
+        }
+      }
+    },
+    "Task" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "jobId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "notstarted", "inprogress", "paused", "complete" ]
+        },
+        "digital" : {
+          "type" : "boolean"
+        },
+        "labour" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Labour"
+          }
+        },
+        "repairs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TaskRepair"
+          }
+        },
+        "parts" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TaskRepairPart"
+          }
+        },
+        "labourCost" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "partsCost" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "timeSpent" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "Labour" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "taskId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Labour description"
+        },
+        "time" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "rate" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "TaskRepair" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "taskId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "$ref" : "#/definitions/Repair"
+        },
+        "parts" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TaskRepairPart"
+          }
+        }
+      }
+    },
+    "TaskRepairPart" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "taskId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "repairId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "$ref" : "#/definitions/Part"
+        },
+        "quantity" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "Part" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "categoryId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "supplier" : {
+          "type" : "string"
+        },
+        "stockType" : {
+          "type" : "string",
+          "enum" : [ "owned", "notowned" ]
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "cost" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "unitPrice" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "taxBand" : {
+          "type" : "number",
+          "format" : "percentage"
+        },
+        "discount" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "goodWill" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "Repair" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "categoryId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Category" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "parentId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "imageUrl" : {
+          "type" : "string"
+        },
+        "hasChildren" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "Customer" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "vatId" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "addressLine1" : {
+          "type" : "string"
+        },
+        "addressLine2" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "zip" : {
+          "type" : "string"
+        },
+        "country" : {
+          "type" : "string",
+          "enum" : [ "England", "Scotland", "Wales" ]
+        }
+      }
+    },
+    "Asset" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "registration" : {
+          "type" : "string"
+        },
+        "type" : {
+          "$ref" : "#/definitions/AssetType"
+        }
+      }
+    },
+    "AssetType" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Note" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "assetId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        },
+        "date" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    },
+    "Document" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "assetId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "date" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "type" : {
+          "type" : "string",
+          "enum" : [ "pdf", "doc", "txt" ]
+        },
+        "url" : {
+          "type" : "string",
+          "format" : "url"
+        }
+      }
+    },
+    "MaintenanceHistory" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "assetId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "taskId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "date" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "mileage" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "siteId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "userName" : {
+          "type" : "string"
+        },
+        "fullName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "lastSeen" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    },
+    "AdminTaskType" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "imageUrl" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
