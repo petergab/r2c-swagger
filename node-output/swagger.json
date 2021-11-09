@@ -101,6 +101,15 @@
             "schema" : {
               "$ref" : "#/definitions/Job"
             }
+          },
+          "404" : {
+            "description" : "Job not found"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "400" : {
+            "description" : "Invalid input"
           }
         }
       },
@@ -789,6 +798,35 @@
             "schema" : {
               "$ref" : "#/definitions/User"
             }
+          }
+        }
+      }
+    },
+    "/users/reset_password" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "Reset forgotten password",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "login" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid input"
           }
         }
       }
