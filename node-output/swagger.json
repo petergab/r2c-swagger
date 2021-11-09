@@ -714,7 +714,7 @@
         }
       }
     },
-    "/assets/{id}/maintenance_history" : {
+    "/assets/{id}/mileage" : {
       "get" : {
         "tags" : [ "assets" ],
         "summary" : "Get Asset Maintenance Histoty",
@@ -724,6 +724,11 @@
           "in" : "path",
           "required" : true,
           "type" : "string"
+        }, {
+          "name" : "current",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
         } ],
         "responses" : {
           "200" : {
@@ -731,7 +736,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/MaintenanceHistory"
+                "$ref" : "#/definitions/Mileage"
               }
             }
           }
@@ -1278,7 +1283,7 @@
         }
       }
     },
-    "MaintenanceHistory" : {
+    "Mileage" : {
       "type" : "object",
       "properties" : {
         "id" : {
