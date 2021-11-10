@@ -476,10 +476,12 @@
             }
           }
         }
-      },
+      }
+    },
+    "/tasks/{id}/durations/start" : {
       "post" : {
         "tags" : [ "tasks" ],
-        "summary" : "Start time recording",
+        "summary" : "Start time recording (API sets timerStart on current time). Resuming laso adds a new row.",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -487,19 +489,6 @@
           "description" : "Task ID",
           "required" : true,
           "type" : "string"
-        }, {
-          "in" : "body",
-          "name" : "body",
-          "required" : true,
-          "schema" : {
-            "type" : "object",
-            "properties" : {
-              "timerStart" : {
-                "type" : "string",
-                "format" : "date-time"
-              }
-            }
-          }
         } ],
         "responses" : {
           "200" : {
@@ -514,7 +503,7 @@
     "/tasks/{id}/durations/{taskDurationId}" : {
       "patch" : {
         "tags" : [ "tasks" ],
-        "summary" : "Update time recording (Edit, Stop, Pause)",
+        "summary" : "Edit time recording",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -545,6 +534,34 @@
               }
             }
           }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/TaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}/durations/{taskDurationId}/stop" : {
+      "patch" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Stop (also pause) time recording (API sets timerEnd on current time).",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "taskDurationId",
+          "in" : "path",
+          "description" : "Task duration ID",
+          "required" : true,
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
