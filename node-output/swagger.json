@@ -66,6 +66,12 @@
           "required" : true,
           "type" : "string",
           "format" : "date-time"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "paused" ]
         } ],
         "responses" : {
           "200" : {
@@ -442,6 +448,109 @@
             "description" : "success",
             "schema" : {
               "$ref" : "#/definitions/Labour"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}/durations" : {
+      "get" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Get all work time recordings",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TaskDuration"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Start time recording",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "timerStart" : {
+                "type" : "string",
+                "format" : "date-time"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/TaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}/durations/{taskDurationId}" : {
+      "patch" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Update time recording (Edit, Stop, Pause)",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "taskDurationId",
+          "in" : "path",
+          "description" : "Task duration ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "timerStart" : {
+                "type" : "string",
+                "format" : "date-time"
+              },
+              "timerEnd" : {
+                "type" : "string",
+                "format" : "date-time"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/TaskDuration"
             }
           }
         }
@@ -922,7 +1031,7 @@
         },
         "requiredBy" : {
           "type" : "string",
-          "format" : "data-time"
+          "format" : "date-time"
         },
         "status" : {
           "type" : "string",
@@ -943,11 +1052,11 @@
         },
         "bookingStart" : {
           "type" : "string",
-          "format" : "data-time"
+          "format" : "date-time"
         },
         "bookingEnd" : {
           "type" : "string",
-          "format" : "data-time"
+          "format" : "date-time"
         },
         "tasks" : {
           "type" : "array",
@@ -976,7 +1085,7 @@
         },
         "status" : {
           "type" : "string",
-          "enum" : [ "notstarted", "inprogress", "paused", "complete" ]
+          "enum" : [ "notstarted", "inprogress", "paused", "stopped", "complete" ]
         },
         "digital" : {
           "type" : "boolean"
@@ -1010,6 +1119,27 @@
         "timeSpent" : {
           "type" : "integer",
           "format" : "int32"
+        }
+      }
+    },
+    "TaskDuration" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "taskId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "timerStart" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "timerEnd" : {
+          "type" : "string",
+          "format" : "date-time"
         }
       }
     },
