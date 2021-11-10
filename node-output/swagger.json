@@ -891,6 +891,28 @@
             }
           }
         }
+      },
+      "post" : {
+        "tags" : [ "assets" ],
+        "summary" : "Add Mileage",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Mileage"
+              }
+            }
+          }
+        }
       }
     },
     "/users/login" : {
