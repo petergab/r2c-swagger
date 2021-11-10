@@ -40,6 +40,9 @@
   }, {
     "name" : "admin_tasks",
     "description" : "Admin Tasks"
+  }, {
+    "name" : "breaks",
+    "description" : "User breaks"
   } ],
   "schemes" : [ "https" ],
   "security" : [ {
@@ -481,7 +484,7 @@
     "/tasks/{id}/durations/start" : {
       "post" : {
         "tags" : [ "tasks" ],
-        "summary" : "Start time recording (API sets timerStart on current time). Resuming laso adds a new row.",
+        "summary" : "Start time recording (API sets timerStart on current time). Resuming also adds a new row.",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -974,33 +977,91 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/AdminTaskType"
+                "$ref" : "#/definitions/AdminTask"
               }
             }
           }
         }
       }
     },
-    "/admin_tasks/log_time" : {
-      "post" : {
+    "/admin_tasks/{id}/durations" : {
+      "get" : {
         "tags" : [ "admin_tasks" ],
-        "summary" : "Lists available Admin Tasks",
-        "consumes" : [ "application/json" ],
+        "summary" : "Get all time recordings for current admin task",
         "produces" : [ "application/json" ],
         "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Admin task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/AdminTaskDuration"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin_tasks/{id}/durations/start" : {
+      "post" : {
+        "tags" : [ "admin_tasks" ],
+        "summary" : "Start time recording for specified admin task (API sets timerStart on current time). Resuming also adds a new row.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Admin task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/AdminTaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/admin_tasks/{id}/durations/{adminTaskDurationId}" : {
+      "patch" : {
+        "tags" : [ "admin_tasks" ],
+        "summary" : "Edit time recording",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Admin task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "adminTaskDurationId",
+          "in" : "path",
+          "description" : "Admin task duration ID",
+          "required" : true,
+          "type" : "string"
+        }, {
           "in" : "body",
           "name" : "body",
-          "required" : false,
+          "required" : true,
           "schema" : {
             "type" : "object",
             "properties" : {
-              "adminTaskId" : {
-                "type" : "integer",
-                "format" : "int32"
+              "timerStart" : {
+                "type" : "string",
+                "format" : "date-time"
               },
-              "time" : {
-                "type" : "integer",
-                "format" : "int32"
+              "timerEnd" : {
+                "type" : "string",
+                "format" : "date-time"
               }
             }
           }
@@ -1009,20 +1070,73 @@
           "200" : {
             "description" : "success",
             "schema" : {
-              "type" : "object",
-              "properties" : {
-                "adminTask" : {
-                  "$ref" : "#/definitions/AdminTaskType"
-                },
-                "time" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                },
-                "date" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                }
-              }
+              "$ref" : "#/definitions/AdminTaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/admin_tasks/{id}/durations/{adminTaskDurationId}/stop" : {
+      "patch" : {
+        "tags" : [ "admin_tasks" ],
+        "summary" : "Stop time recording (API sets timerEnd on current time.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Admin task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "adminTaskDurationId",
+          "in" : "path",
+          "description" : "Admin task duration ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/AdminTaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/breaks/start" : {
+      "post" : {
+        "tags" : [ "breaks" ],
+        "summary" : "Start a break for current user (Stopps also all in progress tasks)",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/BreakDuration"
+            }
+          }
+        }
+      }
+    },
+    "/breaks/{id}/stop" : {
+      "patch" : {
+        "tags" : [ "breaks" ],
+        "summary" : "Stop break time recording.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/BreakDuration"
             }
           }
         }
@@ -1492,7 +1606,7 @@
         }
       }
     },
-    "AdminTaskType" : {
+    "AdminTask" : {
       "type" : "object",
       "properties" : {
         "id" : {
@@ -1511,6 +1625,52 @@
         },
         "imageUrl" : {
           "type" : "string"
+        }
+      }
+    },
+    "AdminTaskDuration" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "adminTaskId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "userId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "timerStart" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "timerEnd" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    },
+    "BreakDuration" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "userId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "timerStart" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "timerEnd" : {
+          "type" : "string",
+          "format" : "date-time"
         }
       }
     }
