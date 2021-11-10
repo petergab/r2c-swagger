@@ -548,7 +548,7 @@
     "/tasks/{id}/durations/{taskDurationId}/stop" : {
       "patch" : {
         "tags" : [ "tasks" ],
-        "summary" : "Stop (also pause) time recording (API sets timerEnd on current time).",
+        "summary" : "Stop (also pause) time recording (API sets timerEnd on current time and changes task status).",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -1094,6 +1094,10 @@
           "type" : "integer",
           "format" : "int64"
         },
+        "userId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
         "name" : {
           "type" : "string"
         },
@@ -1147,6 +1151,10 @@
           "format" : "int64"
         },
         "taskId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "userId" : {
           "type" : "integer",
           "format" : "int64"
         },
@@ -1493,6 +1501,10 @@
         },
         "name" : {
           "type" : "string"
+        },
+        "userId" : {
+          "type" : "integer",
+          "format" : "int64"
         },
         "description" : {
           "type" : "string"
