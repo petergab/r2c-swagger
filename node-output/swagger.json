@@ -442,7 +442,44 @@
           "in" : "body",
           "name" : "body",
           "description" : "Labour",
-          "required" : false,
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Labour"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Labour"
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}/labour/{labourId}" : {
+      "patch" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Edits specific Labour",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "labourId",
+          "in" : "path",
+          "description" : "Labour ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Labour",
+          "required" : true,
           "schema" : {
             "$ref" : "#/definitions/Labour"
           }
