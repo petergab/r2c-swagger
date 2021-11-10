@@ -263,6 +263,7 @@
       "patch" : {
         "tags" : [ "tasks" ],
         "summary" : "Update a Task",
+        "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -456,6 +457,25 @@
         }
       }
     },
+    "/tasks/durations" : {
+      "get" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Get all work time recordings for all tasks (for current current user)",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TaskDuration"
+              }
+            }
+          }
+        }
+      }
+    },
     "/tasks/{id}/durations" : {
       "get" : {
         "tags" : [ "tasks" ],
@@ -507,6 +527,7 @@
       "patch" : {
         "tags" : [ "tasks" ],
         "summary" : "Edit time recording",
+        "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -984,6 +1005,25 @@
         }
       }
     },
+    "/admin_tasks/durations" : {
+      "get" : {
+        "tags" : [ "admin_tasks" ],
+        "summary" : "Get all time recordings for all admin tasks (for current current user)",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/AdminTaskDuration"
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin_tasks/{id}/durations" : {
       "get" : {
         "tags" : [ "admin_tasks" ],
@@ -1035,6 +1075,7 @@
       "patch" : {
         "tags" : [ "admin_tasks" ],
         "summary" : "Edit time recording",
+        "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -1099,6 +1140,25 @@
             "description" : "success",
             "schema" : {
               "$ref" : "#/definitions/AdminTaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/breaks" : {
+      "get" : {
+        "tags" : [ "breaks" ],
+        "summary" : "Lists all breaks for current user",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/BreakDuration"
+              }
             }
           }
         }
@@ -1620,11 +1680,11 @@
           "type" : "integer",
           "format" : "int64"
         },
-        "description" : {
-          "type" : "string"
-        },
-        "imageUrl" : {
-          "type" : "string"
+        "durations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TaskDuration"
+          }
         }
       }
     },
