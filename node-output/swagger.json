@@ -875,6 +875,34 @@
             }
           }
         }
+      },
+      "post" : {
+        "tags" : [ "assets" ],
+        "summary" : "Add Asset Note",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Asset Note",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Note"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Note"
+            }
+          }
+        }
       }
     },
     "/assets/{id}/documents" : {
@@ -1640,6 +1668,10 @@
         "date" : {
           "type" : "string",
           "format" : "date-time"
+        },
+        "photo" : {
+          "type" : "string",
+          "format" : "binary"
         }
       }
     },
