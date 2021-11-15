@@ -349,6 +349,37 @@
         }
       }
     },
+    "/tasks/{id}/repairs/{categoryId}" : {
+      "get" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Lists Repairs with a specified category",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "categoryId",
+          "in" : "path",
+          "description" : "Category ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TaskRepair"
+              }
+            }
+          }
+        }
+      }
+    },
     "/tasks/{id}/parts" : {
       "get" : {
         "tags" : [ "tasks" ],
