@@ -23,7 +23,7 @@
     "name" : "repair_categories",
     "description" : "Repair Categories"
   }, {
-    "name" : "part_types",
+    "name" : "parts",
     "description" : "Parts Lookup"
   }, {
     "name" : "part_categories",
@@ -743,7 +743,7 @@
     },
     "/part_categories" : {
       "get" : {
-        "tags" : [ "part_types" ],
+        "tags" : [ "parts" ],
         "summary" : "Get Part Categories",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -765,9 +765,9 @@
         }
       }
     },
-    "/part_types" : {
+    "/parts" : {
       "get" : {
-        "tags" : [ "part_types" ],
+        "tags" : [ "parts" ],
         "summary" : "Get Parts",
         "produces" : [ "application/json" ],
         "parameters" : [ {
