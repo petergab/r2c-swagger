@@ -124,7 +124,7 @@
       },
       "patch" : {
         "tags" : [ "jobs" ],
-        "summary" : "Update attributes of a Job",
+        "summary" : "Update attributes of a Job (bookings status, approval)",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -262,7 +262,7 @@
       },
       "patch" : {
         "tags" : [ "tasks" ],
-        "summary" : "Update a Task",
+        "summary" : "Update a Task (change status - API may need to update durations)",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -915,6 +915,42 @@
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Asset Note",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Note"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Note"
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/notes/{noteId}" : {
+      "patch" : {
+        "tags" : [ "assets" ],
+        "summary" : "Edit Asset Note (API checks if person editing is an author)",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "noteId",
+          "in" : "path",
+          "description" : "Note ID",
           "required" : true,
           "type" : "string"
         }, {
