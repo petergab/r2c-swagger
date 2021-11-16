@@ -124,7 +124,7 @@
       },
       "patch" : {
         "tags" : [ "jobs" ],
-        "summary" : "Update attributes of a Job (bookings status, approval)",
+        "summary" : "Update attributes of a Job (bookings status, approval request)",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
