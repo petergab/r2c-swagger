@@ -1784,19 +1784,13 @@
         "registration" : {
           "type" : "string"
         },
-        "type" : {
-          "$ref" : "#/definitions/AssetType"
-        }
-      }
-    },
-    "AssetType" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
+        "manufacturer" : {
+          "type" : "string"
         },
-        "name" : {
+        "model" : {
+          "type" : "string"
+        },
+        "range" : {
           "type" : "string"
         }
       }
