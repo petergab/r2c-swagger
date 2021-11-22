@@ -41,6 +41,9 @@
     "name" : "admin_tasks",
     "description" : "Admin Tasks"
   }, {
+    "name" : "admin_task_durations",
+    "description" : "Admin Task Durations (and assignments)"
+  }, {
     "name" : "breaks",
     "description" : "User breaks"
   } ],
@@ -564,9 +567,21 @@
     "/tasks/durations" : {
       "get" : {
         "tags" : [ "tasks" ],
-        "summary" : "Get all work time recordings for all tasks (for current user)",
+        "summary" : "Get all work time recordings for all tasks (for current user and appropriate time period)",
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "from",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        } ],
         "responses" : {
           "200" : {
             "description" : "success",
@@ -1207,12 +1222,24 @@
         }
       }
     },
-    "/admin_tasks/durations" : {
+    "/admin_task_durations/durations" : {
       "get" : {
-        "tags" : [ "admin_tasks" ],
-        "summary" : "Get all time recordings for all admin tasks (for current current user)",
+        "tags" : [ "admin_task_durations" ],
+        "summary" : "Get all time recordings for all admin tasks (for current user and appropriate time period)",
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "from",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        } ],
         "responses" : {
           "200" : {
             "description" : "success",
@@ -1226,10 +1253,10 @@
         }
       }
     },
-    "/admin_tasks/{id}/durations" : {
+    "/admin_task_durations/{id}" : {
       "get" : {
-        "tags" : [ "admin_tasks" ],
-        "summary" : "Get all time recordings for current admin task",
+        "tags" : [ "admin_task_durations" ],
+        "summary" : "Get time recording for assigned admin task",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -1249,33 +1276,9 @@
             }
           }
         }
-      }
-    },
-    "/admin_tasks/{id}/durations/start" : {
-      "post" : {
-        "tags" : [ "admin_tasks" ],
-        "summary" : "Start time recording for specified admin task (API sets timerStart on current time). Resuming also adds a new row.",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Admin task ID",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "$ref" : "#/definitions/AdminTaskDuration"
-            }
-          }
-        }
-      }
-    },
-    "/admin_tasks/{id}/durations/{adminTaskDurationId}" : {
+      },
       "patch" : {
-        "tags" : [ "admin_tasks" ],
+        "tags" : [ "admin_task_durations" ],
         "summary" : "Edit time recording",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -1283,12 +1286,6 @@
           "name" : "id",
           "in" : "path",
           "description" : "Admin task ID",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "adminTaskDurationId",
-          "in" : "path",
-          "description" : "Admin task duration ID",
           "required" : true,
           "type" : "string"
         }, {
@@ -1319,10 +1316,10 @@
         }
       }
     },
-    "/admin_tasks/{id}/durations/{adminTaskDurationId}/stop" : {
-      "patch" : {
-        "tags" : [ "admin_tasks" ],
-        "summary" : "Stop time recording (API sets timerEnd on current time.",
+    "/admin_task_durations/{id}/start" : {
+      "post" : {
+        "tags" : [ "admin_task_durations" ],
+        "summary" : "Start time recording for current user and specified admin task (API sets timerStart with current time).",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -1330,10 +1327,48 @@
           "description" : "Admin task ID",
           "required" : true,
           "type" : "string"
-        }, {
-          "name" : "adminTaskDurationId",
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/AdminTaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/admin_task_durations/{id}/stop" : {
+      "patch" : {
+        "tags" : [ "admin_task_durations" ],
+        "summary" : "Stop time recording for current user and specified admin task (API sets timerEnd with current time)",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
           "in" : "path",
-          "description" : "Admin task duration ID",
+          "description" : "Admin task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/AdminTaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/admin_task_durations/{id}/resume" : {
+      "patch" : {
+        "tags" : [ "admin_task_durations" ],
+        "summary" : "Resume time recording for current user and specified admin task (API sets timerEnd with current time and adds a new row).",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Admin task ID",
           "required" : true,
           "type" : "string"
         } ],
