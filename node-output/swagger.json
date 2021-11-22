@@ -17,9 +17,6 @@
     "name" : "repairs",
     "description" : "Repairs"
   }, {
-    "name" : "repair_types",
-    "description" : "Repair Lookup"
-  }, {
     "name" : "repair_categories",
     "description" : "Repair Categories"
   }, {
@@ -745,7 +742,7 @@
     },
     "/repair_categories" : {
       "get" : {
-        "tags" : [ "repair_types" ],
+        "tags" : [ "repair_categories" ],
         "summary" : "Get Repair Categories",
         "produces" : [ "application/json" ],
         "parameters" : [ {
