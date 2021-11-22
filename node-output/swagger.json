@@ -9,13 +9,10 @@
   "basePath" : "/goodylabs/R2C_TechAssist/1.0.0",
   "tags" : [ {
     "name" : "jobs",
-    "description" : "My Jobs"
+    "description" : "My Jobs (connected to assets)"
   }, {
     "name" : "tasks",
     "description" : "Tasks"
-  }, {
-    "name" : "repairs",
-    "description" : "Repairs"
   }, {
     "name" : "repair_categories",
     "description" : "Repair Categories"
@@ -1060,7 +1057,7 @@
         }
       }
     },
-    "/admin_task_durations/durations" : {
+    "/admin_task_durations" : {
       "get" : {
         "tags" : [ "admin_task_durations" ],
         "summary" : "Get all time recordings for all admin tasks (for current user and appropriate time period)",
@@ -1091,13 +1088,13 @@
         }
       }
     },
-    "/admin_task_durations/{id}" : {
+    "/admin_task_durations/adminTask/{adminTaskId}" : {
       "get" : {
         "tags" : [ "admin_task_durations" ],
         "summary" : "Get time recording for assigned admin task",
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "id",
+          "name" : "adminTaskId",
           "in" : "path",
           "description" : "Admin task ID",
           "required" : true,
@@ -1114,16 +1111,40 @@
             }
           }
         }
-      },
+      }
+    },
+    "/admin_task_durations/adminTask/{adminTaskId}/start" : {
+      "post" : {
+        "tags" : [ "admin_task_durations" ],
+        "summary" : "Start time recording for current user and specified admin task (API sets timerStart with current time).",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "adminTaskId",
+          "in" : "path",
+          "description" : "Admin task ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/AdminTaskDuration"
+            }
+          }
+        }
+      }
+    },
+    "/admin_task_durations/{adminTaskDurationId}" : {
       "patch" : {
         "tags" : [ "admin_task_durations" ],
         "summary" : "Edit time recording",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "id",
+          "name" : "adminTaskDurationId",
           "in" : "path",
-          "description" : "Admin task ID",
+          "description" : "Admin task duration ID",
           "required" : true,
           "type" : "string"
         }, {
@@ -1154,37 +1175,15 @@
         }
       }
     },
-    "/admin_task_durations/{id}/start" : {
-      "post" : {
-        "tags" : [ "admin_task_durations" ],
-        "summary" : "Start time recording for current user and specified admin task (API sets timerStart with current time).",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Admin task ID",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "$ref" : "#/definitions/AdminTaskDuration"
-            }
-          }
-        }
-      }
-    },
-    "/admin_task_durations/{id}/stop" : {
+    "/admin_task_durations/{adminTaskDurationId}/stop" : {
       "patch" : {
         "tags" : [ "admin_task_durations" ],
         "summary" : "Stop time recording for current user and specified admin task (API sets timerEnd with current time)",
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "id",
+          "name" : "adminTaskDurationId",
           "in" : "path",
-          "description" : "Admin task ID",
+          "description" : "Admin task duration ID",
           "required" : true,
           "type" : "string"
         } ],
@@ -1198,13 +1197,13 @@
         }
       }
     },
-    "/admin_task_durations/{id}/resume" : {
+    "/admin_task_durations/{adminTaskDurationId}/resume" : {
       "patch" : {
         "tags" : [ "admin_task_durations" ],
         "summary" : "Resume time recording for current user and specified admin task (API sets timerEnd with current time and adds a new row).",
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "id",
+          "name" : "adminTaskDurationId",
           "in" : "path",
           "description" : "Admin task ID",
           "required" : true,
@@ -1381,18 +1380,6 @@
           "items" : {
             "$ref" : "#/definitions/TaskPart"
           }
-        },
-        "labourCost" : {
-          "type" : "integer",
-          "format" : "int32"
-        },
-        "partsCost" : {
-          "type" : "integer",
-          "format" : "int32"
-        },
-        "timeSpent" : {
-          "type" : "integer",
-          "format" : "int32"
         }
       }
     },
@@ -1609,6 +1596,9 @@
           "format" : "int64"
         },
         "registration" : {
+          "type" : "string"
+        },
+        "fleetNo" : {
           "type" : "string"
         },
         "manufacturer" : {
