@@ -1009,35 +1009,6 @@
         }
       }
     },
-    "/users/reset_password" : {
-      "post" : {
-        "tags" : [ "users" ],
-        "summary" : "Reset forgotten password",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "required" : true,
-          "schema" : {
-            "type" : "object",
-            "properties" : {
-              "login" : {
-                "type" : "string"
-              }
-            }
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success"
-          },
-          "400" : {
-            "description" : "Invalid input"
-          }
-        }
-      }
-    },
     "/admin_tasks" : {
       "get" : {
         "tags" : [ "admin_tasks" ],
@@ -1358,9 +1329,9 @@
         "description" : {
           "type" : "string"
         },
-        "type" : {
+        "taskCategory" : {
           "type" : "string",
-          "enum" : [ "service", "mot", "repair", "inspection" ]
+          "enum" : [ "service", "mot", "repair", "inspection", "tires", "defects" ]
         },
         "status" : {
           "type" : "string",
@@ -1453,9 +1424,6 @@
         },
         "partId" : {
           "$ref" : "#/definitions/Part"
-        },
-        "location" : {
-          "type" : "string"
         },
         "description" : {
           "type" : "string"
@@ -1762,6 +1730,9 @@
         "timerEnd" : {
           "type" : "string",
           "format" : "date-time"
+        },
+        "note" : {
+          "type" : "string"
         }
       }
     },
