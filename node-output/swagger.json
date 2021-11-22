@@ -900,10 +900,10 @@
         }
       }
     },
-    "/assets/{id}/mileage" : {
+    "/assets/{id}/usage" : {
       "get" : {
         "tags" : [ "assets" ],
-        "summary" : "Get Asset Maintenance Histoty",
+        "summary" : "Get Asset Maintenance History",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -922,7 +922,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/Mileage"
+                "$ref" : "#/definitions/Usage"
               }
             }
           }
@@ -930,7 +930,7 @@
       },
       "post" : {
         "tags" : [ "assets" ],
-        "summary" : "Add Mileage",
+        "summary" : "Add Usage",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -944,7 +944,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/Mileage"
+                "$ref" : "#/definitions/Usage"
               }
             }
           }
@@ -1667,7 +1667,7 @@
         }
       }
     },
-    "Mileage" : {
+    "Usage" : {
       "type" : "object",
       "properties" : {
         "id" : {
@@ -1689,9 +1689,13 @@
           "type" : "string",
           "format" : "date-time"
         },
-        "mileage" : {
+        "value" : {
           "type" : "integer",
           "format" : "int32"
+        },
+        "unit" : {
+          "type" : "string",
+          "enum" : [ "hours", "km", "miles" ]
         }
       }
     },
