@@ -564,7 +564,7 @@
     "/tasks/durations" : {
       "get" : {
         "tags" : [ "tasks" ],
-        "summary" : "Get all work time recordings for all tasks (for current current user)",
+        "summary" : "Get all work time recordings for all tasks (for current user)",
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
@@ -583,7 +583,7 @@
     "/tasks/{id}/durations" : {
       "get" : {
         "tags" : [ "tasks" ],
-        "summary" : "Get all work time recordings",
+        "summary" : "Get all tasks time recordings",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -1470,9 +1470,15 @@
           "type" : "integer",
           "format" : "int64"
         },
-        "userId" : {
+        "ownerId" : {
           "type" : "integer",
           "format" : "int64"
+        },
+        "assignedUser" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/User"
+          }
         },
         "name" : {
           "type" : "string"
@@ -1866,7 +1872,7 @@
         "email" : {
           "type" : "string"
         },
-        "lastSeen" : {
+        "lastLogin" : {
           "type" : "string",
           "format" : "date-time"
         }
@@ -1881,16 +1887,6 @@
         },
         "name" : {
           "type" : "string"
-        },
-        "userId" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "durations" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/TaskDuration"
-          }
         }
       }
     },
