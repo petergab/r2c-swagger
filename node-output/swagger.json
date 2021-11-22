@@ -691,7 +691,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/Category"
+                "$ref" : "#/definitions/RepairCategory"
               }
             }
           }
@@ -704,7 +704,7 @@
         "summary" : "Get Parts",
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "categoryId",
+          "name" : "repairCategoryId",
           "in" : "query",
           "required" : false,
           "type" : "string"
@@ -746,7 +746,7 @@
     "/repair_categories" : {
       "get" : {
         "tags" : [ "repair_types" ],
-        "summary" : "Get Part Categories",
+        "summary" : "Get Repair Categories",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "parentId",
@@ -760,36 +760,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/Category"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/repair_types" : {
-      "get" : {
-        "tags" : [ "repair_types" ],
-        "summary" : "Get Repairs",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "categoryId",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "text",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Repair"
+                "$ref" : "#/definitions/RepairCategory"
               }
             }
           }
@@ -1522,7 +1493,7 @@
           "type" : "integer",
           "format" : "int64"
         },
-        "categoryId" : {
+        "repairCategoryId" : {
           "type" : "integer",
           "format" : "int64"
         },
@@ -1561,23 +1532,7 @@
         }
       }
     },
-    "Repair" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "categoryId" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "name" : {
-          "type" : "string"
-        }
-      }
-    },
-    "Category" : {
+    "RepairCategory" : {
       "type" : "object",
       "properties" : {
         "id" : {
