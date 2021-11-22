@@ -310,104 +310,10 @@
         }
       }
     },
-    "/tasks/{id}/repairs" : {
-      "get" : {
-        "tags" : [ "tasks" ],
-        "summary" : "Lists Repairs for a task",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Task ID",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/TaskRepair"
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid Task ID"
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "tasks" ],
-        "summary" : "Adds a TaskRepair to a Task",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Task ID",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "in" : "body",
-          "name" : "body",
-          "description" : "TaskRepair",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/TaskRepair"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "$ref" : "#/definitions/TaskRepair"
-            }
-          },
-          "400" : {
-            "description" : "Invalid Task ID"
-          }
-        }
-      }
-    },
-    "/tasks/{id}/repairs/{categoryId}" : {
-      "get" : {
-        "tags" : [ "tasks" ],
-        "summary" : "Lists Repairs with a specified category",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Task ID",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "categoryId",
-          "in" : "path",
-          "description" : "Category ID",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/TaskRepair"
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid Input"
-          }
-        }
-      }
-    },
     "/tasks/{id}/parts" : {
       "get" : {
         "tags" : [ "tasks" ],
-        "summary" : "Lists Parts for a task",
+        "summary" : "Lists Parts needed to the task",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -460,6 +366,46 @@
           },
           "400" : {
             "description" : "Invalid Task ID"
+          }
+        }
+      }
+    },
+    "/tasks/{id}/parts/{taskPartId}" : {
+      "patch" : {
+        "tags" : [ "tasks" ],
+        "summary" : "Edits a Part assigned to a Task",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Task ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "taskPartId",
+          "in" : "path",
+          "description" : "Task Part ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "TaskPart",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/TaskPart"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/TaskPart"
+            }
+          },
+          "400" : {
+            "description" : "Invalid Input"
           }
         }
       }
@@ -724,82 +670,6 @@
           },
           "400" : {
             "description" : "Invalid Input"
-          }
-        }
-      }
-    },
-    "/repairs/{id}" : {
-      "get" : {
-        "tags" : [ "repairs" ],
-        "summary" : "Get a TaskRepair",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Task ID",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "succcess",
-            "schema" : {
-              "$ref" : "#/definitions/TaskRepair"
-            }
-          }
-        }
-      }
-    },
-    "/repairs/{id}/parts" : {
-      "get" : {
-        "tags" : [ "repairs" ],
-        "summary" : "Get TaskRepairParts for a TaskRepair",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "TaskRepair ID",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/TaskPart"
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "repairs" ],
-        "summary" : "Adds TaskPart to a TaskRepair",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "TaskRepair ID",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "in" : "body",
-          "name" : "body",
-          "description" : "TaskPart",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/TaskPart"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "success",
-            "schema" : {
-              "$ref" : "#/definitions/TaskPart"
-            }
           }
         }
       }
@@ -1534,12 +1404,6 @@
             "$ref" : "#/definitions/Labour"
           }
         },
-        "repairs" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/TaskRepair"
-          }
-        },
         "parts" : {
           "type" : "array",
           "items" : {
@@ -1607,28 +1471,6 @@
         "rate" : {
           "type" : "integer",
           "format" : "int32"
-        }
-      }
-    },
-    "TaskRepair" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "taskId" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "type" : {
-          "$ref" : "#/definitions/Repair"
-        },
-        "parts" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/TaskPart"
-          }
         }
       }
     },
