@@ -413,7 +413,7 @@
     "/tasks/{id}/labour" : {
       "get" : {
         "tags" : [ "tasks" ],
-        "summary" : "Lists Labour for a task",
+        "summary" : "List of tasks Labour",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
@@ -1362,6 +1362,10 @@
         "description" : {
           "type" : "string"
         },
+        "type" : {
+          "type" : "string",
+          "enum" : [ "service", "mot", "repair", "inspection" ]
+        },
         "status" : {
           "type" : "string",
           "enum" : [ "notstarted", "inprogress", "paused", "stopped", "complete" ]
@@ -1431,11 +1435,19 @@
           "type" : "integer",
           "format" : "int64"
         },
+        "userId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
         "description" : {
           "type" : "string",
           "description" : "Labour description"
         },
-        "time" : {
+        "timeSpend" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "billableTime" : {
           "type" : "integer",
           "format" : "int32"
         },
@@ -1463,6 +1475,10 @@
         },
         "description" : {
           "type" : "string"
+        },
+        "type" : {
+          "type" : "string",
+          "enum" : [ "parts", "consumables", "liquids" ]
         },
         "cost" : {
           "type" : "string"
