@@ -422,7 +422,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/TaskRepairPart"
+                "$ref" : "#/definitions/TaskPart"
               }
             }
           },
@@ -433,7 +433,7 @@
       },
       "post" : {
         "tags" : [ "tasks" ],
-        "summary" : "Adds a TaskRepairPart to a Task",
+        "summary" : "Adds a TaskPart to a Task",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -445,17 +445,17 @@
         }, {
           "in" : "body",
           "name" : "body",
-          "description" : "TaskRepairPart",
+          "description" : "TaskPart",
           "required" : false,
           "schema" : {
-            "$ref" : "#/definitions/TaskRepairPart"
+            "$ref" : "#/definitions/TaskPart"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "success",
             "schema" : {
-              "$ref" : "#/definitions/TaskRepairPart"
+              "$ref" : "#/definitions/TaskPart"
             }
           },
           "400" : {
@@ -768,7 +768,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/TaskRepairPart"
+                "$ref" : "#/definitions/TaskPart"
               }
             }
           }
@@ -776,7 +776,7 @@
       },
       "post" : {
         "tags" : [ "repairs" ],
-        "summary" : "Adds TaskRepairPart to a TaskRepair",
+        "summary" : "Adds TaskPart to a TaskRepair",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -788,17 +788,17 @@
         }, {
           "in" : "body",
           "name" : "body",
-          "description" : "TaskRepairPart",
+          "description" : "TaskPart",
           "required" : false,
           "schema" : {
-            "$ref" : "#/definitions/TaskRepairPart"
+            "$ref" : "#/definitions/TaskPart"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "success",
             "schema" : {
-              "$ref" : "#/definitions/TaskRepairPart"
+              "$ref" : "#/definitions/TaskPart"
             }
           }
         }
@@ -1543,7 +1543,7 @@
         "parts" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/TaskRepairPart"
+            "$ref" : "#/definitions/TaskPart"
           }
         },
         "labourCost" : {
@@ -1627,12 +1627,12 @@
         "parts" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/TaskRepairPart"
+            "$ref" : "#/definitions/TaskPart"
           }
         }
       }
     },
-    "TaskRepairPart" : {
+    "TaskPart" : {
       "type" : "object",
       "properties" : {
         "id" : {
@@ -1640,15 +1640,32 @@
           "format" : "int64"
         },
         "taskId" : {
-          "type" : "integer",
-          "format" : "int64"
+          "$ref" : "#/definitions/Task"
         },
-        "repairId" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "type" : {
+        "partId" : {
           "$ref" : "#/definitions/Part"
+        },
+        "location" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "cost" : {
+          "type" : "string"
+        },
+        "unitPrice" : {
+          "type" : "string"
+        },
+        "tax" : {
+          "type" : "string",
+          "enum" : [ "standard", "zero" ]
+        },
+        "discount" : {
+          "type" : "string"
+        },
+        "goodwill" : {
+          "type" : "string"
         },
         "quantity" : {
           "type" : "integer",
