@@ -1693,6 +1693,10 @@
         "lastLogin" : {
           "type" : "string",
           "format" : "date-time"
+        },
+        "avatar" : {
+          "type" : "string",
+          "format" : "binary"
         }
       }
     },
