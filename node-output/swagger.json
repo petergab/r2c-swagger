@@ -127,7 +127,7 @@
       },
       "patch" : {
         "tags" : [ "jobs" ],
-        "summary" : "Update attributes of a Job (bookings status, approval request)",
+        "summary" : "Update attributes of a Job (bookings status)",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -145,10 +145,6 @@
               "bookingStart" : {
                 "type" : "string",
                 "format" : "date-time"
-              },
-              "approvalStatus" : {
-                "type" : "string",
-                "enum" : [ "awaiting" ]
               }
             }
           }
@@ -1275,13 +1271,6 @@
         "description" : {
           "type" : "string"
         },
-        "approvalRequired" : {
-          "type" : "boolean"
-        },
-        "approvalStatus" : {
-          "type" : "string",
-          "enum" : [ "approved", "awaiting", "required", "na" ]
-        },
         "bookingStart" : {
           "type" : "string",
           "format" : "date-time"
@@ -1332,6 +1321,16 @@
         "status" : {
           "type" : "string",
           "enum" : [ "notstarted", "inprogress", "paused", "stopped", "complete" ]
+        },
+        "blocked" : {
+          "type" : "boolean"
+        },
+        "approvalRequired" : {
+          "type" : "boolean"
+        },
+        "approvalStatus" : {
+          "type" : "string",
+          "enum" : [ "approved", "awaiting", "required", "na" ]
         },
         "digital" : {
           "type" : "boolean"
